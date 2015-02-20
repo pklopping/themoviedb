@@ -26,8 +26,9 @@ module Tmdb
     end
 
     #Get the list of popular people on The Movie Database. This list refreshes every day.
-    def self.popular
+    def self.popular(page = 1)
       search = Tmdb::Search.new("/#{self.endpoints[:singular]}/popular")
+      search.page = page
       search.fetch
     end
 

@@ -1,8 +1,11 @@
 module Tmdb
   class Search
+    attr_accessor :page
+
     def initialize(resource=nil)
       @params = {}
       @resource = resource.nil? ? '/search/movie' : resource
+      @page = 1
       self
     end
 
@@ -63,9 +66,9 @@ module Tmdb
     #Send back whole response
     def fetch_response(conditions={})
       if conditions[:external_source]
-        options = @params.merge(Api.config.merge({external_source: conditions[:external_source]}))
+        options = @params.merge(Api.config.merge({external_source: conditions[:external_source], page: @page}))
       else
-        options = @params.merge(Api.config)
+        options = @params.merge(Api.config.merge({page: @page}))
       end
       response = Api.get(@resource, :query => options)
 
